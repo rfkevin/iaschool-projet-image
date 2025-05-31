@@ -7,12 +7,12 @@ from app_utils import normalize_image, torch_image, filtrer_detections, get_clas
 
 model = YOLO("mon_modele.pt")
 
-st.title("Détection d'objets avec Yolov5")
+st.title("Détection d'objets avec Yolo ")
 
 uploaded_file = st.file_uploader("Uploadez une image", type=["jpg", "png", "jpeg"])
 if uploaded_file is not None:
     image = read_image_opencv(uploaded_file)
-    st.image(cv2.cvtColor(image, cv2.COLOR_BGR2RGB), caption="Image uploadée", use_column_width=True)
+    st.image(cv2.cvtColor(image, cv2.COLOR_BGR2RGB), caption="Image uploadée", use_container_width=True)
     image_ssd, image_yolo = normalize_image(image)
     tensor = torch_image(image_yolo)
     results = model(tensor)
@@ -35,7 +35,7 @@ if uploaded_file is not None:
         is_success, buffer = cv2.imencode(".jpg", image_with_boxes)
         if is_success:
             btn = st.download_button(
-            label="📥 Télécharger l'image annotée",
+            label="Télécharger l'image annotée",
             data=buffer.tobytes(),
             file_name="image_annotée.jpg",
             mime="image/jpeg"
